@@ -1,8 +1,5 @@
-# Flex HUD
+# Nix HUD
 
-This mod adds a fully customizable HUD system and useful utilities for Minecraft.
-Whether you're playing survival, building, or PvP, it provides all the information and quality-of-life features you need
-in one place.
 
 ### Available HUD modules:
 
@@ -40,5 +37,6 @@ in one place.
 - **TNT Countdown** – _displays a timer for ignited TNT_
 - **Durability Ping** – _get alerted with a sound and/or on-screen message when an item’s durability reaches a set
   threshold_
-
-_All modules can be toggled, moved, and configured to fit your personal playstyle._
+## Taregt
+Motion blur: (in progress)
+Discord rpc: (future)
