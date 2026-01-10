@@ -12,6 +12,7 @@ import me.Azz_9.flex_hud.client.configurableModules.modules.notHud.DurabilityPin
 import me.Azz_9.flex_hud.client.configurableModules.modules.notHud.TimeChanger;
 import me.Azz_9.flex_hud.client.configurableModules.modules.notHud.TntCountdown;
 import me.Azz_9.flex_hud.client.configurableModules.modules.notHud.WeatherChanger;
+import me.Azz_9.flex_hud.client.configurableModules.modules.notHud.DiscordRpc;
 import me.Azz_9.flex_hud.client.screens.configurationScreen.configVariables.ConfigBoolean;
 import me.Azz_9.flex_hud.client.screens.configurationScreen.configVariables.ConfigInteger;
 
@@ -20,41 +21,67 @@ import java.util.List;
 
 public class ModulesHelper {
 	public ConfigBoolean isEnabled = new ConfigBoolean(true);
-	//hud
-	public ArmorStatus armorStatus = new ArmorStatus(2, -30, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.CENTER);
+	// hud
+	public ArmorStatus armorStatus = new ArmorStatus(2, -30, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.CENTER);
 	public Cps cps = new Cps(-80, 2, AbstractHudElement.AnchorPosition.END, AbstractHudElement.AnchorPosition.START);
-	public Clock clock = new Clock(-204, 2, AbstractHudElement.AnchorPosition.END, AbstractHudElement.AnchorPosition.START);
+	public Clock clock = new Clock(-204, 2, AbstractHudElement.AnchorPosition.END,
+			AbstractHudElement.AnchorPosition.START);
 	public Fps fps = new Fps(2, 2, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.START);
-	public Coordinates coordinates = new Coordinates(2, 15, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.START);
-	public BiomeDisplay biomeDisplay = new BiomeDisplay(2, 45, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.START);
-	public NetherCoordinates netherCoordinates = new NetherCoordinates(2, 60, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.START);
-	public Compass compass = new Compass(0, 0, AbstractHudElement.AnchorPosition.CENTER, AbstractHudElement.AnchorPosition.START);
-	public DayCounter dayCounter = new DayCounter(148, 2, AbstractHudElement.AnchorPosition.CENTER, AbstractHudElement.AnchorPosition.START);
-	public Ping ping = new Ping(-129, 2, AbstractHudElement.AnchorPosition.END, AbstractHudElement.AnchorPosition.START);
-	public ServerAddress serverAddress = new ServerAddress(200, 2, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.START);
-	public MemoryUsage memoryUsage = new MemoryUsage(75, 2, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.START);
-	public Speedometer speedometer = new Speedometer(2, 70, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.START);
-	public Reach reach = new Reach(2, 120, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.START);
-	public Playtime playtime = new Playtime(2, 100, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.START);
-	//public ResourcePack resourcePack = new ResourcePack(0, 100, AbstractHudElement.AnchorPosition.END, AbstractHudElement.AnchorPosition.START);
-	public PotionEffect potionEffect = new PotionEffect(0, 20, AbstractHudElement.AnchorPosition.END, AbstractHudElement.AnchorPosition.START);
+	public Coordinates coordinates = new Coordinates(2, 15, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.START);
+	public BiomeDisplay biomeDisplay = new BiomeDisplay(2, 45, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.START);
+	public NetherCoordinates netherCoordinates = new NetherCoordinates(2, 60, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.START);
+	public Compass compass = new Compass(0, 0, AbstractHudElement.AnchorPosition.CENTER,
+			AbstractHudElement.AnchorPosition.START);
+	public DayCounter dayCounter = new DayCounter(148, 2, AbstractHudElement.AnchorPosition.CENTER,
+			AbstractHudElement.AnchorPosition.START);
+	public Ping ping = new Ping(-129, 2, AbstractHudElement.AnchorPosition.END,
+			AbstractHudElement.AnchorPosition.START);
+	public ServerAddress serverAddress = new ServerAddress(200, 2, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.START);
+	public MemoryUsage memoryUsage = new MemoryUsage(75, 2, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.START);
+	public Speedometer speedometer = new Speedometer(2, 70, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.START);
+	public Reach reach = new Reach(2, 120, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.START);
+	public Playtime playtime = new Playtime(2, 100, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.START);
+	// public ResourcePack resourcePack = new ResourcePack(0, 100,
+	// AbstractHudElement.AnchorPosition.END,
+	// AbstractHudElement.AnchorPosition.START);
+	public PotionEffect potionEffect = new PotionEffect(0, 20, AbstractHudElement.AnchorPosition.END,
+			AbstractHudElement.AnchorPosition.START);
 	public Crosshair crosshair = new Crosshair();
-	public BossBar bossBar = new BossBar(0, 35, AbstractHudElement.AnchorPosition.CENTER, AbstractHudElement.AnchorPosition.START);
-	public WeatherDisplay weatherDisplay = new WeatherDisplay(-4, -4, AbstractHudElement.AnchorPosition.END, AbstractHudElement.AnchorPosition.END);
-	public KeyStrokes keyStrokes = new KeyStrokes(-5, 68, AbstractHudElement.AnchorPosition.END, AbstractHudElement.AnchorPosition.START);
-	public SignReader signReader = new SignReader(2, 60, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.CENTER);
-	public FullInventoryIndicator fullInventoryIndicator = new FullInventoryIndicator(2, 96, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.CENTER);
-	public LightLevel lightLevel = new LightLevel(2, 112, AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.START);
-	public InGameTime inGameTime = new InGameTime(-5, 2, AbstractHudElement.AnchorPosition.END, AbstractHudElement.AnchorPosition.START);
-	public Distance distance = new Distance(0, 50, AbstractHudElement.AnchorPosition.CENTER, AbstractHudElement.AnchorPosition.START);
-	public HeldItem heldItem = new HeldItem(0, -80, AbstractHudElement.AnchorPosition.CENTER, AbstractHudElement.AnchorPosition.END);
-	//others
+	public BossBar bossBar = new BossBar(0, 35, AbstractHudElement.AnchorPosition.CENTER,
+			AbstractHudElement.AnchorPosition.START);
+	public WeatherDisplay weatherDisplay = new WeatherDisplay(-4, -4, AbstractHudElement.AnchorPosition.END,
+			AbstractHudElement.AnchorPosition.END);
+	public KeyStrokes keyStrokes = new KeyStrokes(-5, 68, AbstractHudElement.AnchorPosition.END,
+			AbstractHudElement.AnchorPosition.START);
+	public SignReader signReader = new SignReader(2, 60, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.CENTER);
+	public FullInventoryIndicator fullInventoryIndicator = new FullInventoryIndicator(2, 96,
+			AbstractHudElement.AnchorPosition.START, AbstractHudElement.AnchorPosition.CENTER);
+	public LightLevel lightLevel = new LightLevel(2, 112, AbstractHudElement.AnchorPosition.START,
+			AbstractHudElement.AnchorPosition.START);
+	public InGameTime inGameTime = new InGameTime(-5, 2, AbstractHudElement.AnchorPosition.END,
+			AbstractHudElement.AnchorPosition.START);
+	public Distance distance = new Distance(0, 50, AbstractHudElement.AnchorPosition.CENTER,
+			AbstractHudElement.AnchorPosition.START);
+	public HeldItem heldItem = new HeldItem(0, -80, AbstractHudElement.AnchorPosition.CENTER,
+			AbstractHudElement.AnchorPosition.END);
+	// others
 	public WeatherChanger weatherChanger = new WeatherChanger();
 	public TimeChanger timeChanger = new TimeChanger();
 	public DurabilityPing durabilityPing = new DurabilityPing();
 	public TntCountdown tntCountdown = new TntCountdown();
+	public DiscordRpc discordRpc = new DiscordRpc();
 
-	//number of columns
+	// number of columns
 	public ConfigInteger numberOfColumns = new ConfigInteger(2);
 
 	static ModulesHelper INSTANCE;
@@ -106,14 +133,18 @@ public class ModulesHelper {
 				getInstance().timeChanger,
 				getInstance().crosshair,
 				getInstance().durabilityPing,
-				getInstance().tntCountdown
-		);
+				getInstance().tntCountdown,
+				getInstance().discordRpc);
 
 		for (AbstractModule module : modules) {
-			if (module instanceof HudElement hudElement) hudElements.add(hudElement);
-			if (module instanceof MovableModule movableModule) movableModules.add(movableModule);
-			if (module instanceof Configurable configurable) configurables.add(configurable);
-			if (module instanceof TickableModule tickableModule) tickableModules.add(tickableModule);
+			if (module instanceof HudElement hudElement)
+				hudElements.add(hudElement);
+			if (module instanceof MovableModule movableModule)
+				movableModules.add(movableModule);
+			if (module instanceof Configurable configurable)
+				configurables.add(configurable);
+			if (module instanceof TickableModule tickableModule)
+				tickableModules.add(tickableModule);
 		}
 	}
 

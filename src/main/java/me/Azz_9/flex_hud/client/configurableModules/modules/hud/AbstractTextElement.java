@@ -14,7 +14,8 @@ public abstract class AbstractTextElement extends AbstractBackgroundElement {
 	public ConfigBoolean chromaColor = new ConfigBoolean(false, "flex_hud.global.config.chroma_text_color");
 	public ConfigInteger color = new ConfigInteger(0xffffff, "flex_hud.global.config.text_color");
 
-	public AbstractTextElement(double defaultOffsetX, double defaultOffsetY, @NotNull AnchorPosition defaultAnchorX, @NotNull AnchorPosition defaultAnchorY) {
+	public AbstractTextElement(double defaultOffsetX, double defaultOffsetY, @NotNull AnchorPosition defaultAnchorX,
+			@NotNull AnchorPosition defaultAnchorY) {
 		super(defaultOffsetX, defaultOffsetY, defaultAnchorX, defaultAnchorY);
 
 		ConfigRegistry.register(getID(), "shadow", shadow);
@@ -43,11 +44,6 @@ public abstract class AbstractTextElement extends AbstractBackgroundElement {
 	protected void setWidth(String text, int startX) {
 		int textWidth = MinecraftClient.getInstance().textRenderer.getWidth(text);
 		setWidth(startX + textWidth);
-	}
-
-	protected void setWidth(String text, int startX) {
-		int textWidth = MinecraftClient.getInstance().textRenderer.getWidth(text);
-		this.width = startX + textWidth;
 	}
 
 	protected int getColor() {

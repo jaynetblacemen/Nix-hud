@@ -20,6 +20,7 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 	mavenCentral()
+	maven { url "https://jitpack.io" }
 	maven { url = "https://maven.shedaniel.me/" }
 	maven {
 		name = "Terraformers"
@@ -49,6 +50,9 @@ dependencies {
 	}
 
 	compileOnly files("libs/journeymap-fabric-${project.minecraft_version}-${project.journeymap_version}.jar")
+
+	//implementation "com.github.MinnDevelopment:java-discord-rpc:v2.0.2"
+	//include "com.github.MinnDevelopment:java-discord-rpc:v2.0.2"
 }
 
 processResources {

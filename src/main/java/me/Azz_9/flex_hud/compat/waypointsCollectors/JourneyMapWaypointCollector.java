@@ -1,6 +1,6 @@
 package me.Azz_9.flex_hud.compat.waypointsCollectors;
 
-import journeymap.common.waypoint.WaypointStore;
+//import journeymap.common.waypoint.WaypointStore;
 import me.Azz_9.flex_hud.client.configurableModules.ModulesHelper;
 import me.Azz_9.flex_hud.client.configurableModules.modules.hud.custom.Compass;
 import me.Azz_9.flex_hud.client.tickables.TickRegistry;
@@ -49,25 +49,28 @@ public class JourneyMapWaypointCollector extends Collector<Compass.JourneyMapWay
 
 	@Override
 	public void updateWaypoints() {
-		if (!available) return;
+		if (!available)
+			return;
 
 		getWaypoints().clear();
 
-		try {
-			for (Object waypoint : WaypointStore.getInstance().getAll()) {
-				getWaypoints().add(new Compass.JourneyMapWaypoint(
-						(int) getX.invoke(waypoint),
-						(int) getZ.invoke(waypoint),
-						(int) getColor.invoke(waypoint),
-						!(boolean) isEnabled.invoke(waypoint),
-						Identifier.tryParse(getIdentifier.invoke(waypoint).toString()),
-						(int) getTextureWidth.invoke(waypoint),
-						(int) getTextureHeight.invoke(waypoint),
-						(boolean) isInPlayerDimension.invoke(waypoint)
-				));
-			}
-		} catch (Throwable ignored) {
-		}
+		/*
+		 * try {
+		 * for (Object waypoint : WaypointStore.getInstance().getAll()) {
+		 * getWaypoints().add(new Compass.JourneyMapWaypoint(
+		 * (int) getX.invoke(waypoint),
+		 * (int) getZ.invoke(waypoint),
+		 * (int) getColor.invoke(waypoint),
+		 * !(boolean) isEnabled.invoke(waypoint),
+		 * Identifier.tryParse(getIdentifier.invoke(waypoint).toString()),
+		 * (int) getTextureWidth.invoke(waypoint),
+		 * (int) getTextureHeight.invoke(waypoint),
+		 * (boolean) isInPlayerDimension.invoke(waypoint)
+		 * ));
+		 * }
+		 * } catch (Throwable ignored) {
+		 * }
+		 */
 	}
 
 	@Override

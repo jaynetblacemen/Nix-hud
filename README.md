@@ -39,4 +39,4 @@
   threshold_
 ## Taregt
 Motion blur: (in progress)
-Discord rpc: (future)
+Discord rpc: (Nearly done)
