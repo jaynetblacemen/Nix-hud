@@ -1,7 +1,8 @@
 package me.Azz_9.flex_hud.client.configurableModules.modules.notHud;
 
-//import club.minnced.discord.rpc.DiscordRPC;
-//import club.minnced.discord.rpc.DiscordRichPresence;
+import com.jagrosh.discordipc.IPCClient;
+import com.jagrosh.discordipc.IPCListener;
+import com.jagrosh.discordipc.entities.RichPresence;
 import me.Azz_9.flex_hud.client.configurableModules.ConfigRegistry;
 import me.Azz_9.flex_hud.client.configurableModules.modules.AbstractModule;
 import me.Azz_9.flex_hud.client.configurableModules.modules.TickableModule;
@@ -14,12 +15,17 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
+import java.time.OffsetDateTime;
+
 public class DiscordRpc extends AbstractModule implements TickableModule {
 
     private final ConfigString firstLine;
     private final ConfigString secondLine;
-    // private final DiscordRPC lib = DiscordRPC.INSTANCE;
-    // private final DiscordRichPresence presence = new DiscordRichPresence();
+
+    // Placeholder - user needs to replace this
+    private static final long CLIENT_ID = 1459588408799137978L;
+    private IPCClient client;
+
     private boolean isRpcInitialized = false;
     private long lastTimeUpdate = 0;
 
@@ -45,52 +51,63 @@ public class DiscordRpc extends AbstractModule implements TickableModule {
 
     @Override
     public void tick() {
-        /*
-         * if (isEnabled()) {
-         * if (!isRpcInitialized) {
-         * initRpc();
-         * }
-         * 
-         * // Update presence periodically (every 2 seconds or so to avoid rate
-         * // limits/spam)
-         * if (System.currentTimeMillis() - lastTimeUpdate > 2000) {
-         * updatePresence();
-         * lastTimeUpdate = System.currentTimeMillis();
-         * }
-         * 
-         * lib.Discord_RunCallbacks();
-         * } else {
-         * if (isRpcInitialized) {
-         * shutdownRpc();
-         * }
-         * }
-         */
+        if (isEnabled()) {
+            if (!isRpcInitialized) {
+                initRpc();
+            }
+
+            // periodical updates if needed
+            if (System.currentTimeMillis() - lastTimeUpdate > 2000) {
+                updatePresence();
+                lastTimeUpdate = System.currentTimeMillis();
+            }
+        } else {
+            if (isRpcInitialized) {
+                shutdownRpc();
+            }
+        }
     }
 
     private void initRpc() {
-        /*
-         * // Placeholder App ID - User must replace this!
-         * String applicationId = "1459588408799137978";
-         * lib.Discord_Initialize(applicationId, null, true, "");
-         * presence.startTimestamp = System.currentTimeMillis() / 1000;
-         * isRpcInitialized = true;
-         */
+        try {
+            client = new IPCClient(CLIENT_ID);
+            client.setListener(new IPCListener() {
+                @Override
+                public void onReady(IPCClient client) {
+                    // connected
+                }
+            });
+            client.connect();
+            isRpcInitialized = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            isRpcInitialized = false; // Retry later
+        }
     }
 
     private void updatePresence() {
-        /*
-         * presence.details = firstLine.getValue();
-         * presence.state = secondLine.getValue();
-         * lib.Discord_UpdatePresence(presence);
-         */
+        if (client == null)
+            return;
+
+        RichPresence.Builder builder = new RichPresence.Builder();
+        builder.setDetails(firstLine.getValue())
+                .setState(secondLine.getValue())
+                .setStartTimestamp(OffsetDateTime.now());
+
+        try {
+            client.sendRichPresence(builder.build());
+        } catch (IllegalStateException e) {
+            isRpcInitialized = false; // Assume disconnected
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void shutdownRpc() {
-        /*
-         * lib.Discord_ClearPresence();
-         * lib.Discord_Shutdown();
-         * isRpcInitialized = false;
-         */
+        if (client != null) {
+            client.close();
+        }
+        isRpcInitialized = false;
     }
 
     @Override

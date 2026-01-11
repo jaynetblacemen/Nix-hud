@@ -23,9 +23,10 @@ repositories {
 	maven { url "https://jitpack.io" }
 	maven { url = "https://maven.shedaniel.me/" }
 	maven {
-		name = "Terraformers"
+		name = "TerraformersMC"
 		url = "https://maven.terraformersmc.com/"
 	}
+
 }
 
 dependencies {
@@ -51,8 +52,8 @@ dependencies {
 
 	compileOnly files("libs/journeymap-fabric-${project.minecraft_version}-${project.journeymap_version}.jar")
 
-	//implementation "com.github.MinnDevelopment:java-discord-rpc:v2.0.2"
-	//include "com.github.MinnDevelopment:java-discord-rpc:v2.0.2"
+	implementation "com.github.jagrosh:DiscordIPC:master-SNAPSHOT"
+	include "com.github.jagrosh:DiscordIPC:master-SNAPSHOT"
 }
 
 processResources {
