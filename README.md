@@ -37,6 +37,7 @@
 - **TNT Countdown** – _displays a timer for ignited TNT_
 - **Durability Ping** – _get alerted with a sound and/or on-screen message when an item’s durability reaches a set
   threshold_
+- **Discord-RPC** – _A cool discord RPC_
 ## Taregt
 Motion blur: (in progress)
-Discord rpc: (Nearly done)
+
