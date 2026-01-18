@@ -15,7 +15,8 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractConfigurationScreen extends AbstractCallbackScreen implements Observer, ColorSelectorGetter {
+public abstract class AbstractConfigurationScreen extends AbstractCallbackScreen
+		implements Observer, ColorSelectorGetter {
 
 	protected int buttonWidth;
 	protected int buttonHeight;
@@ -27,7 +28,8 @@ public abstract class AbstractConfigurationScreen extends AbstractCallbackScreen
 	private ColorSelector colorSelector;
 
 	public AbstractConfigurationScreen(Text title, Screen parent, int buttonWidth, int buttonHeight) {
-		super(title, parent, Text.translatable("flex_hud.global.config.callback.message_title"), Text.translatable("flex_hud.global.config.callback.message_content"));
+		super(title, parent, Text.translatable("flex_hud.global.config.callback.message_title"),
+				Text.translatable("flex_hud.global.config.callback.message_content"));
 		this.buttonWidth = buttonWidth;
 		this.buttonHeight = buttonHeight;
 	}
@@ -89,7 +91,9 @@ public abstract class AbstractConfigurationScreen extends AbstractCallbackScreen
 		int textColor = 0xffffffff;
 		int backgroundColor = 0x80000000;
 		int padding = 2;
-		context.fill(this.width / 2 - textRenderer.getWidth(title) / 2 - padding, 7 - padding, this.width / 2 + textRenderer.getWidth(title) / 2 + padding, 7 + textRenderer.fontHeight, backgroundColor);
+		context.fill(this.width / 2 - textRenderer.getWidth(title) / 2 - padding, 7 - padding,
+				this.width / 2 + textRenderer.getWidth(title) / 2 + padding, 7 + textRenderer.fontHeight,
+				backgroundColor);
 		context.drawCenteredTextWithShadow(textRenderer, title, this.width / 2, 7, textColor);
 
 		configList.render(context, mouseX, mouseY, deltaTicks);
@@ -105,17 +109,9 @@ public abstract class AbstractConfigurationScreen extends AbstractCallbackScreen
 	}
 
 	@Override
-	public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
-		if (MinecraftClient.getInstance().world == null) {
-			super.renderBackground(context, mouseX, mouseY, deltaTicks);
-		}
-	}
-
-	@Override
 	public void onChange(DataGetter<?> dataGetter) {
 		updateSaveButton();
 	}
-
 
 	@Override
 	public boolean mouseClicked(Click click, boolean doubled) {
@@ -170,7 +166,6 @@ public abstract class AbstractConfigurationScreen extends AbstractCallbackScreen
 		}
 		return super.charTyped(input);
 	}
-
 
 	public void openColorSelector(@NotNull ColorBindable colorBindable) {
 		this.colorSelector = new ColorSelector(colorBindable);

@@ -13,6 +13,7 @@ import me.Azz_9.flex_hud.client.configurableModules.modules.notHud.TimeChanger;
 import me.Azz_9.flex_hud.client.configurableModules.modules.notHud.TntCountdown;
 import me.Azz_9.flex_hud.client.configurableModules.modules.notHud.WeatherChanger;
 import me.Azz_9.flex_hud.client.configurableModules.modules.notHud.DiscordRpc;
+import me.Azz_9.flex_hud.client.configurableModules.modules.notHud.MotionBlur;
 import me.Azz_9.flex_hud.client.screens.configurationScreen.configVariables.ConfigBoolean;
 import me.Azz_9.flex_hud.client.screens.configurationScreen.configVariables.ConfigInteger;
 
@@ -80,6 +81,7 @@ public class ModulesHelper {
 	public DurabilityPing durabilityPing = new DurabilityPing();
 	public TntCountdown tntCountdown = new TntCountdown();
 	public DiscordRpc discordRpc = new DiscordRpc();
+	public MotionBlur motionBlur = new MotionBlur();
 
 	// number of columns
 	public ConfigInteger numberOfColumns = new ConfigInteger(2);
@@ -134,7 +136,8 @@ public class ModulesHelper {
 				getInstance().crosshair,
 				getInstance().durabilityPing,
 				getInstance().tntCountdown,
-				getInstance().discordRpc);
+				getInstance().discordRpc,
+				getInstance().motionBlur);
 
 		for (AbstractModule module : modules) {
 			if (module instanceof HudElement hudElement)

@@ -11,12 +11,16 @@ public abstract class AbstractBackNavigableScreen extends Screen {
 		this.PARENT = parent;
 	}
 
-	@Override
 	public void close() {
 		if (client != null && PARENT != null) {
 			client.setScreen(PARENT);
 		} else {
 			super.close();
 		}
+	}
+
+	@Override
+	public void renderBackground(net.minecraft.client.gui.DrawContext context, int mouseX, int mouseY, float delta) {
+		me.Azz_9.flex_hud.client.utils.DrawingUtils.drawModernBackground(context, this.width, this.height);
 	}
 }

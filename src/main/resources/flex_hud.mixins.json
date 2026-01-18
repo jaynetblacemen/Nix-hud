@@ -20,7 +20,9 @@
 		"durabilityPing.ClientPlayNetworkHandlerMixin",
 		"keybind.KeyBindingMixin",
 		"potionEffect.PotionEffectMixin",
-		"reach.ClientPlayerInteractionManagerMixin"
+		"reach.ClientPlayerInteractionManagerMixin",
+		"GameRendererAccessor",
+		"MixinGameRenderer"
 	],
 	"injectors": {
 		"defaultRequire": 1

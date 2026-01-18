@@ -1,0 +1,38 @@
+{
+    "targets": [
+        "accum_history",
+        "intermediate"
+    ],
+    "passes": [
+        {
+            "name": "motion_blur",
+            "intarget": "minecraft:main",
+            "outtarget": "intermediate",
+            "auxtargets": [
+                {
+                    "name": "PrevSampler",
+                    "id": "accum_history"
+                }
+            ],
+            "program": "motion_blur",
+            "uniforms": [
+                {
+                    "name": "Phosphor",
+                    "values": [
+                        0.5
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "intermediate",
+            "outtarget": "accum_history"
+        },
+        {
+            "name": "blit",
+            "intarget": "intermediate",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

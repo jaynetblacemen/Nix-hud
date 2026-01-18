@@ -23,6 +23,7 @@ import static me.Azz_9.flex_hud.client.Flex_hudClient.MOD_ID;
 import static me.Azz_9.flex_hud.client.Flex_hudClient.openOptionScreenKeyBind;
 
 public class OptionsScreen extends AbstractBackNavigableScreen {
+	private static final Identifier MOD_ICON = Identifier.of(MOD_ID, "logo-without-bg.png");
 	private long initTimestamp;
 	private IconButton enableModButton;
 
@@ -51,14 +52,14 @@ public class OptionsScreen extends AbstractBackNavigableScreen {
 				(btn) -> {
 					ModulesHelper.getInstance().isEnabled.setValue(!ModulesHelper.getInstance().isEnabled.getValue());
 					updateEnableButton();
-				}
-		);
+				});
 		updateEnableButton();
 		this.addDrawableChild(enableModButton);
 
 		ButtonWidget modsButton = ButtonWidget.builder(Text.translatable("flex_hud.options_screen.modules"),
-						(btn) -> MinecraftClient.getInstance().setScreen(new ModulesListScreen(this))
-				).dimensions((width - centralButtonWidth) / 2, (height - squareButtonSize) / 2, centralButtonWidth, squareButtonSize)
+				(btn) -> MinecraftClient.getInstance().setScreen(new ModulesListScreen(this)))
+				.dimensions((width - centralButtonWidth) / 2, (height - squareButtonSize) / 2, centralButtonWidth,
+						squareButtonSize)
 				.build();
 		this.addDrawableChild(modsButton);
 
@@ -68,9 +69,9 @@ public class OptionsScreen extends AbstractBackNavigableScreen {
 				squareButtonSize, squareButtonSize,
 				Identifier.of(MOD_ID, "widgets/buttons/options_menu_buttons/move.png"),
 				14, 14, (btn) -> {
-			MinecraftClient.getInstance().setScreen(new MoveModulesScreen(this));
-			Flex_hudClient.isInMoveElementScreen = true;
-		});
+					MinecraftClient.getInstance().setScreen(new MoveModulesScreen(this));
+					Flex_hudClient.isInMoveElementScreen = true;
+				});
 		this.addDrawableChild(moveButton);
 	}
 
@@ -90,8 +91,6 @@ public class OptionsScreen extends AbstractBackNavigableScreen {
 		float progress = Math.min((float) (System.currentTimeMillis() - initTimestamp) / ANIMATION_DURATION, 1.0f);
 		float easedProgress = EaseUtils.getEaseOutQuad(progress);
 
-		final Identifier modIcon = Identifier.of(MOD_ID, "logo-without-bg.png");
-
 		// set the icon width and height
 		int iconWidth = 64;
 		int iconHeight = 64;
@@ -102,24 +101,19 @@ public class OptionsScreen extends AbstractBackNavigableScreen {
 		double y = height / 2.0 - iconHeight / 2.0 - 35;
 		y -= 16 * easedProgress; // go up smoothly
 
-		//TODO trouver comment remplacer ça
-		//RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, easedProgress);
-
 		super.render(context, mouseX, mouseY, delta);
 
-		Matrix3x2fStack matrices = context.getMatrices();
-		matrices.pushMatrix();
-		matrices.translate((float) x, (float) y);
-
 		// Draw the icon
-		context.drawTexture(RenderPipelines.GUI_TEXTURED, modIcon, 0, 0, 0, 0, iconWidth, iconHeight, iconWidth, iconHeight);
+		context.drawTexture(RenderPipelines.GUI_TEXTURED, MOD_ICON, x, (int) y, 0, 0, iconWidth, iconHeight, iconWidth,
+				iconHeight);
 
-		matrices.popMatrix();
-
-		//RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F); // Opacité à 100%
+		// RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F); // Opacité à 100%
 
 		if (!ModulesHelper.getInstance().isEnabled.getValue()) {
-			context.drawCenteredTextWithShadow(MinecraftClient.getInstance().textRenderer, Text.translatable("flex_hud.options_screen.mod_is_disabled_warning").formatted(Formatting.RED, Formatting.ITALIC), this.width / 2, this.height / 2 + 20, 0xffffffff);
+			context.drawCenteredTextWithShadow(MinecraftClient.getInstance().textRenderer,
+					Text.translatable("flex_hud.options_screen.mod_is_disabled_warning").formatted(Formatting.RED,
+							Formatting.ITALIC),
+					this.width / 2, this.height / 2 + 20, 0xffffffff);
 		}
 	}
 
@@ -134,7 +128,7 @@ public class OptionsScreen extends AbstractBackNavigableScreen {
 
 	@Override
 	public boolean mouseClicked(Click click, boolean doubled) {
-		//if the keybind is on a mouse button
+		// if the keybind is on a mouse button
 		if (openOptionScreenKeyBind.matchesMouse(click)) {
 			this.close();
 			return true;

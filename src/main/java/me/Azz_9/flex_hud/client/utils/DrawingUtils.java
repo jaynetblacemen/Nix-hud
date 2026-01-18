@@ -14,4 +14,14 @@ public class DrawingUtils {
 		context.fill(x, y + thick, x + thick, y + height - thick, color);
 		context.fill(x + width - thick, y + thick, x + width, y + height - thick, color);
 	}
+
+	public static void drawModernBackground(DrawContext context, int width, int height) {
+		// Modern dark gradient background
+		// Top color: Very dark grey (almost black)
+		// Bottom color: Pure black
+		// High alpha to keep focus on UI but allow slight perceived depth
+		int topColor = 0xF0101010;
+		int bottomColor = 0xF0000000;
+		context.fillGradient(0, 0, width, height, topColor, bottomColor);
+	}
 }
