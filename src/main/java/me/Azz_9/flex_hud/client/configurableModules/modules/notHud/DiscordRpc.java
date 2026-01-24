@@ -68,20 +68,42 @@ public class DiscordRpc extends AbstractModule implements TickableModule {
         }
     }
 
+    private long lastRetryTime = 0;
+    private static final long RETRY_COOLDOWN = 30000; // 30 seconds
+
     private void initRpc() {
+        if (System.currentTimeMillis() - lastRetryTime < RETRY_COOLDOWN) {
+            return;
+        }
+        lastRetryTime = System.currentTimeMillis();
+
         try {
             client = new IPCClient(CLIENT_ID);
             client.setListener(new IPCListener() {
                 @Override
                 public void onReady(IPCClient client) {
-                    // connected
+                    isRpcInitialized = true;
+                }
+
+                @Override
+                public void onClose(IPCClient client, org.json.JSONObject json) {
+                    isRpcInitialized = false;
+                }
+
+                @Override
+                public void onDisconnect(IPCClient client, Throwable t) {
+                    isRpcInitialized = false;
                 }
             });
             client.connect();
+            // Note: connect() might return before onReady is called,
+            // but we mark it initialized to prevent multiple connect() calls.
+            // If it fails, the exception catch or listener will reset it.
             isRpcInitialized = true;
         } catch (Exception e) {
-            e.printStackTrace();
-            isRpcInitialized = false; // Retry later
+            // Log once per retry cycle instead of printing full stack trace every tick
+            // FlexHudLogger.error("Failed to connect to Discord: " + e.getMessage());
+            isRpcInitialized = false;
         }
     }
 

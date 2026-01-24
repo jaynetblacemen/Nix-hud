@@ -21,7 +21,8 @@ public class ScrollableModulesList extends AbstractSmoothScrollableList<Scrollab
 	private int padding;
 	private int columns;
 
-	public ScrollableModulesList(MinecraftClient client, int width, int height, int top, int itemHeight, int buttonWidth, int buttonHeight, int iconWidthHeight, int padding, int columns) {
+	public ScrollableModulesList(MinecraftClient client, int width, int height, int top, int itemHeight,
+			int buttonWidth, int buttonHeight, int iconWidthHeight, int padding, int columns) {
 		super(client, width, height, top, itemHeight);
 		this.buttonWidth = buttonWidth;
 		this.buttonHeight = buttonHeight;
@@ -32,7 +33,7 @@ public class ScrollableModulesList extends AbstractSmoothScrollableList<Scrollab
 
 	/*
 	 * modules' size needs to be equal or lower than number of columns
-	 * */
+	 */
 	public void addModule(List<Module> modules) {
 		assert modules.size() <= columns;
 		if (modules.size() < columns) {
@@ -128,28 +129,84 @@ public class ScrollableModulesList extends AbstractSmoothScrollableList<Scrollab
 
 		@Override
 		public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
-			int totalButtonWidth = scrollableModulesList.buttonWidth * scrollableModulesList.columns + scrollableModulesList.padding;
-			int buttonX = getX() + (getWidth() - totalButtonWidth) / scrollableModulesList.columns;
-			int iconX = buttonX + (scrollableModulesList.buttonWidth - scrollableModulesList.iconWidthHeight) / 2;
+			int rowWidth = scrollableModulesList.getRowWidth();
+			int startX = getX() + (getWidth() - rowWidth) / 2;
 
 			for (int i = 0; i < rowModules.size(); i++) {
-				if (rowModules.get(i) == null) {
+				Module module = rowModules.get(i);
+				if (module == null) {
 					break;
 				}
 
-				if (i != 0) {
-					buttonX = buttonX + scrollableModulesList.buttonWidth + scrollableModulesList.padding;
-					iconX = buttonX + (scrollableModulesList.buttonWidth - scrollableModulesList.iconWidthHeight) / 2;
-				}
+				int x = startX + i * (scrollableModulesList.buttonWidth + scrollableModulesList.padding);
+				int y = getY();
 
-				context.drawTexture(RenderPipelines.GUI_TEXTURED, this.rowModules.get(i).icon, iconX, getY(), 0, 0,
-						scrollableModulesList.iconWidthHeight, scrollableModulesList.iconWidthHeight, scrollableModulesList.iconWidthHeight, scrollableModulesList.iconWidthHeight);
-				this.rowModules.get(i).button.setX(buttonX);
-				this.rowModules.get(i).button.setY(getY() + scrollableModulesList.iconWidthHeight + scrollableModulesList.padding / 2);
-				this.rowModules.get(i).button.render(context, mouseX, mouseY, deltaTicks);
+				int cardX = x - 2;
+				int cardY = y + 4;
+				int cardWidth = scrollableModulesList.buttonWidth + 4;
+				int cardHeight = scrollableModulesList.itemHeight - 8;
+
+				// Solid Pit Black Background (0xFF000000)
+				// High Curvature (Radius ~6-8px)
+				// 1. Central body
+				context.fill(cardX + 6, cardY, cardX + cardWidth - 6, cardY + cardHeight, 0xFF000000);
+				// 2. Inner side blocks
+				context.fill(cardX + 2, cardY + 2, cardX + 6, cardY + cardHeight - 2, 0xFF000000);
+				context.fill(cardX + cardWidth - 6, cardY + 2, cardX + cardWidth - 2, cardY + cardHeight - 2,
+						0xFF000000);
+				// 3. Outer side blocks
+				context.fill(cardX, cardY + 6, cardX + 2, cardY + cardHeight - 6, 0xFF000000);
+				context.fill(cardX + cardWidth - 2, cardY + 6, cardX + cardWidth, cardY + cardHeight - 6, 0xFF000000);
+
+				// Optional: Extra curvature steps for smoother arc
+				context.fill(cardX + 1, cardY + 4, cardX + 2, cardY + 6, 0xFF000000);
+				context.fill(cardX + 1, cardY + cardHeight - 6, cardX + 2, cardY + cardHeight - 4, 0xFF000000);
+				context.fill(cardX + cardWidth - 2, cardY + 4, cardX + cardWidth - 1, cardY + 6, 0xFF000000);
+				context.fill(cardX + cardWidth - 2, cardY + cardHeight - 6, cardX + cardWidth - 1,
+						cardY + cardHeight - 4, 0xFF000000);
+
+				// Draw manual border (following high curvature)
+				int borderCol = 0xFF111111; // Darker for "Pit" look
+				// Horizontal lines
+				context.fill(cardX + 6, cardY, cardX + cardWidth - 6, cardY + 1, borderCol); // Top
+				context.fill(cardX + 6, cardY + cardHeight - 1, cardX + cardWidth - 6, cardY + cardHeight, borderCol); // Bottom
+				// Vertical lines
+				context.fill(cardX, cardY + 6, cardX + 1, cardY + cardHeight - 6, borderCol); // Left
+				context.fill(cardX + cardWidth - 1, cardY + 6, cardX + cardWidth, cardY + cardHeight - 6, borderCol); // Right
+
+				// Corner arcs (manual pixels)
+				// Top-Left
+				context.fill(cardX + 1, cardY + 4, cardX + 2, cardY + 6, borderCol);
+				context.fill(cardX + 2, cardY + 2, cardX + 4, cardY + 4, borderCol);
+				context.fill(cardX + 4, cardY + 1, cardX + 6, cardY + 2, borderCol);
+				// Top-Right
+				context.fill(cardX + cardWidth - 2, cardY + 4, cardX + cardWidth - 1, cardY + 6, borderCol);
+				context.fill(cardX + cardWidth - 4, cardY + 2, cardX + cardWidth - 2, cardY + 4, borderCol);
+				context.fill(cardX + cardWidth - 6, cardY + 1, cardX + cardWidth - 4, cardY + 2, borderCol);
+				// Bottom-Left
+				context.fill(cardX + 1, cardY + cardHeight - 6, cardX + 2, cardY + cardHeight - 4, borderCol);
+				context.fill(cardX + 2, cardY + cardHeight - 4, cardX + 4, cardY + cardHeight - 2, borderCol);
+				context.fill(cardX + 4, cardY + cardHeight - 2, cardX + 6, cardY + cardHeight - 1, borderCol);
+				// Bottom-Right
+				context.fill(cardX + cardWidth - 2, cardY + cardHeight - 6, cardX + cardWidth - 1,
+						cardY + cardHeight - 4, borderCol);
+				context.fill(cardX + cardWidth - 4, cardY + cardHeight - 4, cardX + cardWidth - 2,
+						cardY + cardHeight - 2, borderCol);
+				context.fill(cardX + cardWidth - 6, cardY + cardHeight - 2, cardX + cardWidth - 4,
+						cardY + cardHeight - 1, borderCol);
+
+				// Render Icon
+				int iconX = x + (scrollableModulesList.buttonWidth - scrollableModulesList.iconWidthHeight) / 2;
+				context.drawTexture(RenderPipelines.GUI_TEXTURED, module.icon, iconX, y + 2, 0, 0,
+						scrollableModulesList.iconWidthHeight, scrollableModulesList.iconWidthHeight,
+						scrollableModulesList.iconWidthHeight, scrollableModulesList.iconWidthHeight);
+
+				// Render Button
+				module.button.setX(x);
+				module.button.setY(y + scrollableModulesList.iconWidthHeight + 6);
+				module.button.render(context, mouseX, mouseY, deltaTicks);
 			}
 		}
-
 
 		@Override
 		public List<ClickableWidget> children() {

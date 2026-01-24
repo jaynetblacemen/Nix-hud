@@ -1,6 +1,7 @@
 {
 	"required": true,
 	"minVersion": "0.8",
+	"refMap": "flex_hud.refmap.json",
 	"package": "me.Azz_9.flex_hud.client.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
@@ -22,7 +23,10 @@
 		"potionEffect.PotionEffectMixin",
 		"reach.ClientPlayerInteractionManagerMixin",
 		"GameRendererAccessor",
-		"MixinGameRenderer"
+		"MixinGameRenderer",
+		"ButtonWidgetMixin",
+		"ScreenMixin",
+		"TitleScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

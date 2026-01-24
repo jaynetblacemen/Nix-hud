@@ -21,7 +21,8 @@ public class ModulesListScreen extends AbstractBackNavigableScreen {
 	private PlaceholderTextFieldWidget searchBar;
 	private ScrollableModulesList modulesListWidget;
 
-	private final ImmutableList<Configurable> MODULES_LIST = ImmutableList.copyOf(ModulesHelper.getConfigurableModules());
+	private final ImmutableList<Configurable> MODULES_LIST = ImmutableList
+			.copyOf(ModulesHelper.getConfigurableModules());
 
 	public ModulesListScreen(Screen parent) {
 		super(Text.translatable("flex_hud.configuration_screen"), parent);
@@ -29,28 +30,35 @@ public class ModulesListScreen extends AbstractBackNavigableScreen {
 
 	@Override
 	protected void init() {
-		final int BUTTON_WIDTH = 140;
+		final int BUTTON_WIDTH = 120;
 		final int BUTTON_HEIGHT = 20;
-		final int ICON_WIDTH_HEIGHT = 64;
-		final int PADDING = 10;
+		final int ICON_WIDTH_HEIGHT = 48;
+		final int PADDING = 24;
 		final int MAX_COLUMNS = Math.min((this.width - 30) / (BUTTON_WIDTH + PADDING), MODULES_LIST.size());
 		int columns = Math.clamp(ModulesHelper.getInstance().numberOfColumns.getValue(), 1, MAX_COLUMNS);
 
 		// Initialisation de la barre de recherche
-		this.searchBar = new PlaceholderTextFieldWidget(this.textRenderer, this.width / 2 - 100, 20, 200, 20, Text.empty());
+		this.searchBar = new PlaceholderTextFieldWidget(this.textRenderer, this.width / 2 - 100, 20, 200, 20,
+				Text.empty());
 		this.searchBar.setChangedListener(this::onSearchUpdate); // Met à jour la liste lorsque le texte change
 		this.searchBar.setPlaceholder(Text.translatable("flex_hud.configuration_screen.searchbar_placeholder"));
 
 		// Initialisation du choix du nombre de colonnes
-		CyclingButtonWidget<Integer> columnsButton = CyclingButtonWidget.<Integer>builder(value -> Text.literal(value.toString()), columns)
+		CyclingButtonWidget<Integer> columnsButton = CyclingButtonWidget
+				.<Integer>builder(value -> Text.literal(value.toString()), columns)
 				.values(IntStream.rangeClosed(1, MAX_COLUMNS).boxed().toList())
-				.build(Math.clamp(this.width / 2 + 105 + (int) (this.width / 100.0F * 5), this.width / 2 + 105, Math.max(this.width - 105, this.width / 2 + 105)), 20, 100, 20, Text.translatable("flex_hud.configuration_screen.columns"), this::onColumnsUpdate);
+				.build(Math.clamp(this.width / 2 + 105 + (int) (this.width / 100.0F * 5), this.width / 2 + 105,
+						Math.max(this.width - 105, this.width / 2 + 105)), 20, 100, 20,
+						Text.translatable("flex_hud.configuration_screen.columns"), this::onColumnsUpdate);
 
 		// Initialisation de la liste défilante
-		this.modulesListWidget = new ScrollableModulesList(this.client, this.width, this.height - 84, 50, BUTTON_HEIGHT + ICON_WIDTH_HEIGHT + PADDING, BUTTON_WIDTH, BUTTON_HEIGHT, ICON_WIDTH_HEIGHT, PADDING, columns);
+		this.modulesListWidget = new ScrollableModulesList(this.client, this.width, this.height - 84, 50,
+				BUTTON_HEIGHT + ICON_WIDTH_HEIGHT + PADDING, BUTTON_WIDTH, BUTTON_HEIGHT, ICON_WIDTH_HEIGHT, PADDING,
+				columns);
 
-		//Initialisation du bouton done
-		ButtonWidget doneButton = ButtonWidget.builder(Text.translatable("flex_hud.configuration_screen.done"), (btn) -> close())
+		// Initialisation du bouton done
+		ButtonWidget doneButton = ButtonWidget
+				.builder(Text.translatable("flex_hud.configuration_screen.done"), (btn) -> close())
 				.dimensions(this.width / 2 - 80, this.height - 27, 160, 20)
 				.build();
 
@@ -59,8 +67,7 @@ public class ModulesListScreen extends AbstractBackNavigableScreen {
 		this.addSelectableChild(this.modulesListWidget);
 		this.addDrawableChild(doneButton);
 
-
-		//Ajout des modules
+		// Ajout des modules
 		addMods(BUTTON_WIDTH, BUTTON_HEIGHT, columns);
 	}
 
@@ -103,16 +110,14 @@ public class ModulesListScreen extends AbstractBackNavigableScreen {
 			Configurable module = MODULES_LIST.get(i);
 
 			modules.add(new Module(
-							module.getName().getString(),
-							module.getID(),
-							module.getConfigScreen(this),
-							buttonWidth,
-							buttonHeight,
-							this,
-							module::getTooltip,
-							ImmutableList.copyOf(module.getKeywords())
-					)
-			);
+					module.getName().getString(),
+					module.getID(),
+					module.getConfigScreen(this),
+					buttonWidth,
+					buttonHeight,
+					this,
+					module::getTooltip,
+					ImmutableList.copyOf(module.getKeywords())));
 
 			if ((i + 1) % columns == 0) {
 				this.modulesListWidget.addModule(modules); // copie de la liste

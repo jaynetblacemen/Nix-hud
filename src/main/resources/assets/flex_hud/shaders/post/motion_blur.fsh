@@ -9,8 +9,8 @@ in vec2 texCoord;
 out vec4 fragColor;
 
 void main() {
-    vec4 distinct = texture(DiffuseSampler, texCoord);
-    vec4 past = texture(PrevSampler, texCoord);
+    vec4 current = texture(DiffuseSampler, texCoord);
+    vec4 previous = texture(PrevSampler, texCoord);
 
-    fragColor = mix(distinct, past, Phosphor);
+    fragColor = mix(current, previous, Phosphor);
 }

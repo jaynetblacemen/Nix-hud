@@ -10,8 +10,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
-    @Inject(method = "renderWorld", at = @At("RETURN"))
+    @Inject(method = "renderWorld", at = @At("TAIL"))
     private void onRenderWorldEnd(RenderTickCounter tickCounter, CallbackInfo ci) {
-        MotionBlur.onWorldRenderEnd(tickCounter.getTickProgress(false));
+        MotionBlur mb = me.Azz_9.flex_hud.client.configurableModules.ModulesHelper.getInstance().motionBlur;
+        if (mb != null) {
+            mb.render(tickCounter.getTickProgress(false));
+        }
     }
 }

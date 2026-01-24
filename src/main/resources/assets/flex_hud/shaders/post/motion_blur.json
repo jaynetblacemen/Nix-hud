@@ -1,38 +1,57 @@
 {
-    "targets": [
-        "accum_history",
-        "intermediate"
+    "vertex_shader": "flex_hud:post/motion_blur",
+    "fragment_shader": "flex_hud:post/motion_blur",
+    "attributes": [
+        "Position"
     ],
-    "passes": [
+    "samplers": [
         {
-            "name": "motion_blur",
-            "intarget": "minecraft:main",
-            "outtarget": "intermediate",
-            "auxtargets": [
-                {
-                    "name": "PrevSampler",
-                    "id": "accum_history"
-                }
-            ],
-            "program": "motion_blur",
-            "uniforms": [
-                {
-                    "name": "Phosphor",
-                    "values": [
-                        0.5
-                    ]
-                }
+            "name": "Diffuse"
+        },
+        {
+            "name": "Prev"
+        }
+    ],
+    "uniforms": [
+        {
+            "name": "ProjMat",
+            "type": "matrix4x4",
+            "count": 16,
+            "values": [
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
             ]
         },
         {
-            "name": "blit",
-            "intarget": "intermediate",
-            "outtarget": "accum_history"
+            "name": "OutSize",
+            "type": "float",
+            "count": 2,
+            "values": [
+                1.0,
+                1.0
+            ]
         },
         {
-            "name": "blit",
-            "intarget": "intermediate",
-            "outtarget": "minecraft:main"
+            "name": "Phosphor",
+            "type": "float",
+            "count": 1,
+            "values": [
+                0.5
+            ]
         }
     ]
 }
